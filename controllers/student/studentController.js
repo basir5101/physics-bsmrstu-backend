@@ -107,3 +107,26 @@ exports.studentList = async (req, res) => {
         });
     }
 };
+
+exports.studentById = async (req, res) => {
+    let studentId = req.params;
+    let id =    studentId.studentId.replace(/\s+/g, '');
+    try {
+        await Student.find({studentId: id}, (err, student) => {
+            if (err) {
+                res.status(500).json({
+                    error: 'Something went wrong',
+                });
+            } else {
+                res.status(200).json({
+                    user: student,
+                });
+            }
+        });
+    } catch (err) {
+        res.status(401).json({
+            message: 'Something went wrong',
+            error: err,
+        });
+    }
+};
